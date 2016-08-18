@@ -1,0 +1,153 @@
+########################################################################
+############################  Assignment 1  ############################
+############################  By-Abhimanyu Singh  ######################
+########################################################################
+
+# Importing Data
+placement_data<- read.csv('C:\\Users\\abhimanyu\\Downloads\\Placement_Data(1).csv',stringsAsFactors=FALSE)
+names(placement_data)
+attach(placement_data)
+
+# Question 1
+# number of students who were offered a salary more than the average = 103
+a <- as.data.frame(SALARY > mean(SALARY,na.rm = T))
+names(a) <- c("aa")
+nrow(subset(a,aa==T))
+
+# Qurstion 2
+sal_3K_6K <- subset(placement_data, SALARY > 3000 & SALARY < 6000)
+
+# Question 3
+data_nomiss <- na.omit(placement_data)
+
+# Question 4
+table(JOB.TYPE)
+
+# Question 5
+table(Company,JOB.TYPE)
+
+# Question 6
+# Since Stud_ID is uniqe, none of the student got multiple offers.
+nrow(as.data.frame((placement_data$StudID))) == nrow(as.data.frame(unique(placement_data$StudID)))
+
+# Question 7
+# Month 1 recorded maximum number of placements = 47
+freq_table <- as.data.frame(table(month(Placement.Date)))
+subset(freq_table,freq_table$Freq == max(freq_table$Freq))
+
+# Question 8
+as.data.frame(summary(placement_data))
+quantile(placement_data$SALARY, probs = seq(0, 1, 0.25), na.rm = T,names = TRUE, type = 7)
+.data_Q1 <- subset(placement_data,SALARY < 7000)
+.data_Q2 <- subset(placement_data,SALARY > 7000 & SALARY < 7900)
+.data_Q3 <- subset(placement_data,SALARY > 7900 & SALARY < 9000)
+.data_Q4 <- subset(placement_data,SALARY > 9000)
+quartile_data <- list(.data_Q1,.data_Q2,.data_Q3,.data_Q4)
+
+# Question 9
+# Security Profile had the highest median salary offered = 12200
+aggregate(placement_data$SALARY,by=list(JOB.TYPE), FUN = median, na.rm=T)
+
+# Question 10
+# Placement Date is populated even for the cases where Company is reported as "Dropout" or "Interview in process"
+# If a student's Interview is in process he/she cannot have a placement date.
+# Hence, I don't think reported placement date is correct.
+
+
+########################################################################
+############################  Assignment 2  ############################
+############################  By-Abhimanyu Singh  ######################
+########################################################################
+
+# Q1
+# If number of factors of n smaller than sqrt(n) is equal to 1 , then the number is prime.
+prime_test <- function(p) {
+  print( ifelse( sum( p/1:round( p^.5 ) == round( p/1:round( p^.5 ))) == 1,
+                 paste( p," is Prime"),
+                 paste( p," is Not Prime")))
+}
+
+# Q2
+palind_check <- function(x) {
+  chksum <- integer(nchar(x))
+  for (i in 1:nchar(x)){
+    # for each character in x, checking if the mirror position character is same or not.
+    chksum[i] = ifelse(substr(x,i,i) == substr(x,nchar(x)-i+1,nchar(x)-i+1),1,0)
+  }
+  # If above condition is true for all characters of x, then sum of vector chksum will be
+  # equal to length of x and x is a palindrome.
+  if (sum(chksum) == nchar(x)) print(paste(x,"is a palindrome."))
+  else print(paste(x,"is not a palindrome."))
+}
+
+# Q3
+# intToBits function converts decimal to binary, but returns a 64 bit vector.
+# This vector can be reshaped to get numeric binary representation of decimal number.
+binary <- function(x) {
+  print(as.integer(paste(rev(as.integer(intToBits(x))), collapse="")))
+}
+
+# Q4
+# In any row i of Pascal triangle, any element j is sum of 2 elements(j & j-1) from previous row i-1.
+# Also, first and last elements of any row in Pascal triangle are 1.
+pascal <- function(n) {
+  triangle <- list()
+  length(triangle) <- n
+  triangle[[1]] <- c(1)
+  for (i in 2:n) {
+    triangle[[i]] <- integer(i)
+    for (j in 2:i) {
+      triangle[[i]][j] <-  triangle[[i-1]][j-1] + triangle[[i-1]][j]
+    }
+    triangle[[i]][1] <- 1
+    triangle[[i]][i] <- 1
+  }
+  print(triangle)
+}
+
+
+
+
+pascal <- function(n) {
+  triangle <- list()
+  length(triangle) <- n
+  for (i in 1:n) {
+    triangle[[i]] <- integer(i)
+    for (j in 1:i) {
+      triangle[[i]][j] <- factorial(i)/(factorial(j) * factorial(i-j))
+    }
+  }
+  triangle1 <- list()
+  for (i in 1:n) {triangle[[i]] <- c(1,triangle[[i]])
+  triangle1[[i+1]] <- triangle[[i]]}
+  triangle1[[1]] <- c(1)
+  print(triangle1[1:n])
+}
+
+pascal(100)
+
+a <- data.frame(sex = c("M","F","F","F","M","F","M","M"),
+                age = c(1,2,1,3,4,2,1,3))
+
+b <- dummy.data.frame(a,c("sex", "age"),sep="_")
+
+
+########################################################################
+############################  Assignment 3  ############################
+############################  By-Abhimanyu Singh  ######################
+########################################################################
+
+# Q1
+# Using package "dummies"
+library(dummies)
+dumm <- function(df) {
+  df_dummies <- dummy.data.frame(df,names(df),sep="_")
+  return(df_dummies)
+}
+
+# Q2
+search_engine <- function(column,word) {
+  return(column[grep(word, column, perl=F)])
+}
+
+
