@@ -1,5 +1,4 @@
-
-
+# Confidence interval for estimated sample mean
 
 y = c(35, 34, 38, 35, 37)
 n <- length(y)
@@ -7,3 +6,45 @@ estimate <- mean(y)
 se <- sd(y)/sqrt(n)
 int.50 <- estimate + qt(c(.25,.75),n-1)*se
 int.95 <- estimate + qt(c(.025,.975),n-1)*se
+
+# CI for sample proportions
+y <- 700
+n <- 1000
+estimate <- y/n
+se <- sqrt (estimate*(1-estimate)/n)
+int.95 <- estimate + qnorm(c(.025,.975))*se
+
+# 600 have 0 dogs, 300 have 1 dog, 50 have 2 dogs and so on...
+y <- rep (c(0,1,2,3,4), c(600,300,50,30,20))
+
+
+w.avg <- sum(N*p)/sum(N) R code
+se.w.avg <- sqrt (sum ((N*se/sum(N))^2))
+int.95 <- w.avg + c(-2,2)*se.w.avg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
