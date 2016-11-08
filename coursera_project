@@ -3,12 +3,13 @@ write.csv(var_names,file="coursera/var_names.csv",sep="\n")
 
 str(movies)
 
+# Creating train and test data
 train_size <- .7*nrow(movies)
 train_ind <- sample(seq(nrow(movies)), train_size)
 movies_train <- movies[train_ind,]
 movies_test <- movies[-train_ind,]
 
-movies <- movies_train
+# movies <- movies_train
 
 freq <- as.data.frame(lapply(lapply(movies,as.factor), nlevels))
 freq <- lapply(lapply(movies,unique), length)
